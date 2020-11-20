@@ -1,0 +1,9 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: example.com
+  version: v1alpha1
+  kind: Flask
+  chart: helm-charts/flask-app
+  overrideValues:    
+    flask.image: $RELATED_IMAGE_FLASK
+    vue.image: $RELATED_IMAGE_VUE
+# +kubebuilder:scaffold:watch

@@ -1,0 +1,45 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  labels:
+#   control-plane: controller-manager
+# name: system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: flask-operator
+  template:
+    metadata:
+      labels:
+        name: flask-operator
+    spec:
+      serviceAccountName: flask-operator
+      containers:
+        - name: manager
+          args:
+            - "--enable-leader-election"
+            - "--leader-election-id=flask-operator"
+          image: controller:latest
+          imagePullPolicy: "Always"
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "flask-operator"
+            - name: RELATED_IMAGE_FLASK
+              value: quay.io/rhm_samples/flask-server:v0.0.1
+            - name: RELATED_IMAGE_VUE
+              value: quay.io/rhm_samples/flask-vue-client:v0.0.1
+      terminationGracePeriodSeconds: 10
