@@ -39,7 +39,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: OPERATOR_NAME
-            value: "flask-app-operator"
+            value: "mvc-db-app-operator"
           - name: RELATED_IMAGE_BACKEND
             value: quay.io/ritushreepurkait/nodejs-guestbook-backend:v0.0.1
           - name: RELATED_IMAGE_FRONTEND
